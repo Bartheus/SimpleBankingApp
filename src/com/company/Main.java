@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
         greeting();
     }
 
@@ -35,44 +34,44 @@ public class Main {
     public static void login() {
         Scanner userCredentials = new Scanner(System.in);
 
-            try {
-                //Read input from a user (username and password)
-                System.out.println("Username: ");
-                String username = userCredentials.nextLine();
+        try {
+            outer:
+            while (true) {
+            //Read input from a user (username and password)
+            System.out.println("Username: ");
+            String username = userCredentials.nextLine();
 
-                System.out.println("Password: ");
-                String password = userCredentials.nextLine();
+            System.out.println("Password: ");
+            String password = userCredentials.nextLine();
 
-                // Create reader to read user registered data
-                BufferedReader readUserInput = new BufferedReader(
-                         new FileReader("Register.txt"));
-                // Read user input, first username then password in next line
-                // (simple logic for only one user because every new registration
-                // with BufferedWriter will be overridden
-                String readUsername = readUserInput.readLine();
-                String readUserPassword = readUserInput.readLine();
-                outer: while (true) {
-                    //check every line if is not a null using while loop
-                while ((readUsername != null && readUserPassword != null )) {
+            // Create reader to read user registered data
+            BufferedReader readUserInput = new BufferedReader(
+                    new FileReader("Register.txt"));
+            // Read user input, first username then password in next line
+            // (simple logic for only one user because every new registration
+            // with BufferedWriter will be overridden
+
+            String readUsername = readUserInput.readLine();
+            String readUserPassword = readUserInput.readLine();
+
+                //check every line if is not a null using while loop
+                while ((readUsername != null && readUserPassword != null)) {
                     // check if user input equals the data in a file, check if on 1st line username equals
                     // the given one from user and check the second line for a password
-                    if (readUsername.equals(username)  && readUserPassword.equals(password)) {
-                       //TODO  call a  function to open banking menu after successful login.
-                        System.out.println("you have successful logged in.");
-                         break outer;
+                    if (readUsername.equals(username) && readUserPassword.equals(password)) {
+                        bankingMenu();
+                        break outer;
                     } else {
                         System.out.println("Wrong username or password.");
+                        break;
                     }
-
-                }}
-
+                }
                 readUserInput.close();
-            } catch (Exception error) {
-                System.out.println("Wrong username or password.");
-                error.printStackTrace();
             }
-
-
+        } catch (Exception error) {
+            System.out.println("Wrong username or password.");
+            error.printStackTrace();
+        }
     }
 
     public static void register() {
@@ -83,7 +82,7 @@ public class Main {
 
         System.out.println("Your username: ");
         String newUsername = newUsernameReader.nextLine();
-        System.out.println("YOur password: ");
+        System.out.println("Your password: ");
         String newPassword = newPasswordReader.nextLine();
 
         // write user input to the file
@@ -100,7 +99,13 @@ public class Main {
     }
 
 
-    // TODO create a function for a banking menu an interaction with it
+    public static void bankingMenu() {
+        System.out.println("-------------------------------");
+        System.out.println("| (1) Check your balance.     |");
+        System.out.println("| (2) Make a bank transfer.   |");
+        System.out.println("| (3) Take a Credit.          |");
+        System.out.println("-------------------------------");
+    }
 }
 
 
