@@ -3,6 +3,7 @@ package com.company;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
@@ -18,10 +19,13 @@ public class Main {
         greeting();
     }
 
+    //GREETING BANK MENU
     public static void greeting() {
+        System.out.println("\n");
         System.out.println("Welcome in our Bank");
-        System.out.println("Are u already a member of our Bank ?");
-        System.out.println("If yes, please enter (1) to login and (2) to join us!");
+        System.out.println("What u would like to do?");
+        System.out.println("\n");
+        System.out.println("(1) Login     (2) Register      (0) EXIT");
 
         Scanner userInputReader = new Scanner(System.in);
         while (true) {
@@ -33,11 +37,15 @@ public class Main {
                 case '2' ->
                         //register function
                         register();
+                case '0' ->
+                        //quit app
+                        quit();
                 default -> System.out.println("Wrong Input");
             }
         }
     }
 
+    //LOGIN FUCNTION LOGIC
     public static void login() {
         Scanner userCredentials = new Scanner(System.in);
 
@@ -45,10 +53,10 @@ public class Main {
             outer:
             while (true) {
                 //Read input from a user (username and password)
-                System.out.println("Username: ");
+                System.out.print("Username: ");
                 String username = userCredentials.nextLine();
 
-                System.out.println("Password: ");
+                System.out.print("Password: ");
                 String password = userCredentials.nextLine();
 
                 // Create reader to read user registered data
@@ -80,16 +88,16 @@ public class Main {
             error.printStackTrace();
         }
     }
-    // User Register
+    // USER REGISTER LOGIC
     public static void register() {
         System.out.println("REGISTER");
         // username and password scanner
         Scanner newUsernameReader = new Scanner(System.in);
         Scanner newPasswordReader = new Scanner(System.in);
         // read user input
-        System.out.println("Your username: ");
+        System.out.print("Your username: ");
         String newUsername = newUsernameReader.nextLine();
-        System.out.println("Your password: ");
+        System.out.print("Your password: ");
         String newPassword = newPasswordReader.nextLine();
 
         // write user input to the file
@@ -103,8 +111,15 @@ public class Main {
             System.out.println("An error occurred.");
             error.printStackTrace();
         }
+        System.out.println("\n");
+        System.out.println("You have successfully created your account.");
+        greeting();
     }
 
+    // FUNCTION TO QUIT APP
+    public static void quit() {
+        System.exit(0);
+    }
     // Banking application menu
     public static void bankingMenu() throws IOException {
         System.out.println("-------------------------------");
@@ -135,7 +150,7 @@ public class Main {
             }
             case '0' -> {
                 //Quit app
-                System.exit(0);
+                quit();
             }
             default -> {
                 System.out.println("Wrog input");
@@ -210,28 +225,35 @@ public class Main {
 
     public static void bankTransfer() throws IOException {
         Scanner userInputReader = new Scanner(System.in);
-        String personName = userInputReader.next();
-        String personSurname = userInputReader.next();
-        String transferTitle = userInputReader.next();
-        String personBankNr = userInputReader.next();
-        double transferAmount = userInputReader.nextDouble();
+
         // Insert recipient data
         System.out.println("Bank Transfer");
-        //TODO CONTINUE....
-        System.out.println("Name: " + personName);
-        System.out.println("Surname: " + personSurname);
-        System.out.println("Title: " + transferTitle);
-        System.out.println("Banking nr : " + personBankNr);
-        System.out.println("Amount : " + transferAmount );
+        System.out.println("Name: ");
+        String personName = userInputReader.nextLine();
+        System.out.println("Surname: ");
+        String personSurname = userInputReader.nextLine();
+        System.out.println("Title: ");
+        String transferTitle = userInputReader.nextLine();
+        System.out.println("Banking nr : ");
+        String personBankNr = userInputReader.nextLine();
+        System.out.println("Amount : ");
+        double transferAmount = userInputReader.nextDouble();
 
         money = money - transferAmount;
 
-        System.out.println("Transfer Data: ");
+        System.out.println("\n");
+
+        String textinBoldTransfer = "Transfer Data: ";
+        System.out.println("\033[0;1m" + textinBoldTransfer+": ");
+
         System.out.println(personName + " " + personSurname);
+        System.out.println(transferTitle);
         System.out.println(personBankNr);
         System.out.println(transferAmount);
+        System.out.println("\n");
 
-        System.out.println("Your actual balance: " + money);
+        String textinBoldBalance = "Your actual balance: ";
+        System.out.println("\033[0;1m" +textinBoldBalance+ "" +  money );
 
         confirmInput();
         bankingMenu();
@@ -240,7 +262,8 @@ public class Main {
     public static void logout() {
     username = "";
     password = "";
-    login();
+    System.out.println("You have been successfully logged out.");
+    greeting();
     }
 }
 
